@@ -41,5 +41,6 @@ jobs:
 
       - name: Execute tests
         run: |
+          touch .env
           php artisan key:generate
           php artisan test --env=ci
