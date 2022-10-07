@@ -34,7 +34,7 @@ jobs:
         run: composer install --prefer-dist --no-interaction --no-suggest
 
       - name: Run PHP linter
-        run: cs:check
+        run: composer cs:check
 
       - name: Run PHPSTAN
         run: composer phpstan
