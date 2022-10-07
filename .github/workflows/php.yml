@@ -40,4 +40,6 @@ jobs:
         run: composer phpstan
 
       - name: Execute tests
-        run: php artisan test --env=ci
+        run: |
+          php artisan key:generate
+          php artisan test --env=ci
