@@ -20,7 +20,7 @@ class FacultySpider extends BasicSpider
     {
         $faculties = $response->filter("li")->slice(0, 3)->each(function (Crawler $crawler): array {
             return [
-                $crawler->text(),
+                "name" => $crawler->text(),
             ];
         });
 
