@@ -15,5 +15,7 @@ yarn-error.log
 /.idea
 /.vscode
 *.cache
+*.config
+*.local
 _ide_helper.php
 .DS_Store
