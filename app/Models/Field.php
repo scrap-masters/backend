@@ -25,7 +25,7 @@ class Field extends Model
     ];
 
     /**
-     * @return BelongsTo<Faculty>
+     * @return BelongsTo<Faculty, Field>
      */
     public function faculty(): BelongsTo
     {

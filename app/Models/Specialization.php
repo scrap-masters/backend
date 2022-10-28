@@ -24,7 +24,7 @@ class Specialization extends Model
     ];
 
     /**
-     * @return BelongsTo<Field>
+     * @return BelongsTo<Field, Specialization>
      */
     public function field(): BelongsTo
     {
