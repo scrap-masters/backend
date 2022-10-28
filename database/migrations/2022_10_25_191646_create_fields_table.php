@@ -11,6 +11,9 @@ return new class() extends Migration {
     {
         Schema::create("fields", function (Blueprint $table): void {
             $table->id();
+            $table->string("name");
+            $table->integer("faculty_id");
+            $table->foreign("faculty_id")->references("id")->on("faculties");
             $table->timestamps();
         });
     }

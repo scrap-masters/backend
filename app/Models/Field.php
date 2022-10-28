@@ -6,8 +6,37 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property-read Faculty $faculty
+ * @property-read Collection<Specialization> $specializations
+ */
 class Field extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        "name",
+    ];
+
+    /**
+     * @return BelongsTo<Faculty>
+     */
+    public function faculty(): BelongsTo
+    {
+        return $this->belongsTo(Faculty::class);
+    }
+
+    /**
+     * @return HasMany<Specialization>
+     */
+    public function specializations(): HasMany
+    {
+        return $this->hasMany(Specialization::class);
+    }
 }

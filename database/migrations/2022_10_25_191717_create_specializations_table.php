@@ -11,6 +11,10 @@ return new class() extends Migration {
     {
         Schema::create("specializations", function (Blueprint $table): void {
             $table->id();
+            $table->string("name");
+            $table->string("slug");
+            $table->integer("field_id");
+            $table->foreign("field_id")->references("id")->on("fields");
             $table->timestamps();
         });
     }
