@@ -16,6 +16,7 @@ services:
             context: .
             dockerfile: .docker/php/Dockerfile
         working_dir: /var/www
+        user: ${CURRENT_UID:-1000}
         environment:
             - DOCKER=1
             - PHP_IDE_CONFIG=serverName=scrap-masters.local

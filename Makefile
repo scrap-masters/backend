@@ -2,7 +2,8 @@
 install: ## Init project
 	cp -n .env.example .env
 	docker-compose build
-	docker-compose run php composer install
+	docker-compose up -d
+	docker-compose exec php composer install
 	$(MAKE) key-generate
 	$(MAKE) db-create
 	$(MAKE) db-seed
