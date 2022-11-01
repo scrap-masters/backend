@@ -19,3 +19,4 @@ yarn-error.log
 *.local
 _ide_helper.php
 .DS_Store
+.bash_history
