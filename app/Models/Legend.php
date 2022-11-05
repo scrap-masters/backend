@@ -16,10 +16,10 @@ class Legend extends Model
 {
     use HasFactory;
 
-    protected $timestamps = true;
+    public $timestamps = true;
     protected $table = "legend";
     protected $fillable = [
-        "short_name",
+        "slug",
         "full_name",
     ];
 }
