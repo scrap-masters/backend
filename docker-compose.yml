@@ -21,7 +21,7 @@ services:
             - DOCKER=1
             - PHP_IDE_CONFIG=serverName=scrap-masters.local
         volumes:
-            - .docker/php/conf/php-dev.ini:/usr/local/etc/php/conf.d/php.ini
+            - .docker/php/conf/php.ini:/usr/local/etc/php/conf.d/php.ini
 #            - .docker/php/conf/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
             - .:/var/www:delegated
         ports:
