@@ -2,18 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Spiders\Processors;
+namespace App\Spiders\Processors\Timetable;
 
 use RoachPHP\ItemPipeline\ItemInterface;
 use RoachPHP\ItemPipeline\Processors\ItemProcessorInterface;
 use RoachPHP\Support\Configurable;
 
-class TimetableProcessor implements ItemProcessorInterface
+class LessonsProcessor implements ItemProcessorInterface
 {
     use Configurable;
 
     public function processItem(ItemInterface $item): ItemInterface
     {
+        dump(5);
         return $item;
     }
 }
