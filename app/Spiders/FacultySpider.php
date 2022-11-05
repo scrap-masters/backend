@@ -18,12 +18,12 @@ class FacultySpider extends Spider
 
     public function parse(Response $response): Generator
     {
-        $faculties = $response->filter("li")->slice(0, 3)->each(function (Crawler $crawler): array {
-            $str = $crawler->filter("a")->attr("href");
+        $faculties = $response->filterXPath('//div[@class="page-sidebar"]//li/a[contains(text(), "Wydzia")]')->each(function (Crawler $crawler): array {
+            $href = $crawler->filter("a")->attr("href");
 
             return [
                 "name" => $crawler->text(),
-                "externalId" => substr($str, strpos($str, "id=") + 3),
+                "externalId" => substr($href, strpos($href, "id=") + 3),
             ];
         });
 
