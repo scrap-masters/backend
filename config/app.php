@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\Facades\Facade;
-
 return [
     /*
     |--------------------------------------------------------------------------
@@ -207,7 +205,7 @@ return [
     |
     */
 
-    "aliases" => Facade::defaultAliases()->merge([
-        // 'ExampleClass' => App\Example\ExampleClass::class,
-    ])->toArray(),
+    "aliases" => [
+        "Route" => Illuminate\Support\Facades\Route::class,
+    ],
 ];
