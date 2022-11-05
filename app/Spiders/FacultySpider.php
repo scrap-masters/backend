@@ -6,6 +6,7 @@ namespace App\Spiders;
 
 use App\Dto\FacultyDto;
 use App\Spiders\Processors\FacultyProcessor;
+use App\Spiders\Utils\Constants;
 use Generator;
 use RoachPHP\Http\Response;
 use Symfony\Component\DomCrawler\Crawler;
@@ -18,7 +19,7 @@ class FacultySpider extends Spider
 
     public function parse(Response $response): Generator
     {
-        $faculties = $response->filterXPath('//div[@class="page-sidebar"]//li/a[contains(text(), "Wydzia")]')->each(function (Crawler $crawler): array {
+        $faculties = $response->filterXPath(Constants::SELECTOR_TO_FACULTY_LIST)->each(function (Crawler $crawler): array {
             $href = $crawler->filter("a")->attr("href");
 
             return [
