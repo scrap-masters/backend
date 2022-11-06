@@ -4,22 +4,28 @@ declare(strict_types=1);
 
 namespace App\Spiders\Processors\Timetable;
 
+use App\Spiders\Items\TimetableItem;
 use RoachPHP\ItemPipeline\ItemInterface;
-use RoachPHP\ItemPipeline\Processors\ItemProcessorInterface;
+use RoachPHP\ItemPipeline\Processors\CustomItemProcessor;
 use RoachPHP\Support\Configurable;
-use Symfony\Component\DomCrawler\Crawler;
 
-class DayProcessor implements ItemProcessorInterface
+class DayProcessor extends CustomItemProcessor
 {
     use Configurable;
 
+    /**
+     * @param  TimetableItem  $item
+     */
     public function processItem(ItemInterface $item): ItemInterface
     {
-        /**
-         * @param Crawler $itemAA
-         */
-        $itemAA = $item->get("days");
-        dd($itemAA->getNode(0)->textContent);
+        dump($item->days->text());
         return $item;
+    }
+
+    protected function getHandledItemClasses(): array
+    {
+        return [
+            TimetableItem::class,
+        ];
     }
 }

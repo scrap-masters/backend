@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Spiders;
 
 use App\Exceptions\NotFoundEnvException;
-use RoachPHP\Downloader\Middleware\UserAgentMiddleware;
 use function config;
 use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use RoachPHP\Downloader\Middleware\RequestDeduplicationMiddleware;
+use RoachPHP\Downloader\Middleware\UserAgentMiddleware;
 use RoachPHP\Extensions\LoggerExtension;
 use RoachPHP\Extensions\StatsCollectorExtension;
 use RoachPHP\Spider\AbstractSpider;
@@ -21,7 +21,7 @@ abstract class Spider extends AbstractSpider
     public array $spiderMiddleware = [];
     public array $downloaderMiddleware = [
         RequestDeduplicationMiddleware::class,
-        [UserAgentMiddleware::class, ['userAgent' => 'Mozilla/5.0 (compatible; RoachPHP/0.1.0)']],
+        [UserAgentMiddleware::class, ["userAgent" => "Mozilla/5.0 (compatible; RoachPHP/0.1.0)"]],
     ];
     public array $itemProcessors = [];
     public array $extensions = [

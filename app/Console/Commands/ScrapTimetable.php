@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Spiders\LegendSpider;
-use App\Spiders\Timetable2Spider;
 use App\Spiders\TimetableSpider;
 use Illuminate\Console\Command;
 use RoachPHP\Roach;
