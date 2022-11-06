@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Spiders;
 
 use App\Spiders\Items\TimetableItem;
-use App\Spiders\Processors\Timetable\DayProcessor;
+use App\Spiders\Processors\TimetableProcessor;
 use App\Spiders\Utils\Constants;
 use Generator;
 use RoachPHP\Http\Response;
@@ -14,10 +14,9 @@ use Symfony\Component\DomCrawler\Crawler;
 class TimetableSpider extends Spider
 {
     public array $itemProcessors = [
-        DayProcessor::class,
+        TimetableProcessor::class,
     ];
 
-    // Todo: Must be add to link checkSpecjalnosc + Stac becouse then get plan for all term
     public function parse(Response $response): Generator
     {
         $items = $response->each(function (Crawler $crawler) {
