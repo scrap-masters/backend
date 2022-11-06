@@ -6,8 +6,10 @@ namespace App\Spiders;
 
 use App\Spiders\Items\FacultyItem;
 use App\Spiders\Items\FieldItem;
+use App\Spiders\Items\SpecializationItem;
 use App\Spiders\Processors\FacultyProcessor;
 use App\Spiders\Processors\FieldProcessor;
+use App\Spiders\Processors\SpecializationProcessor;
 use App\Spiders\Utils\Constants;
 use Generator;
 use RoachPHP\Http\Response;
@@ -18,6 +20,7 @@ class FacultySpider extends Spider
     public array $itemProcessors = [
         FacultyProcessor::class,
         FieldProcessor::class,
+        SpecializationProcessor::class,
     ];
 
     public function parse(Response $response): Generator
@@ -40,20 +43,24 @@ class FacultySpider extends Spider
 
             yield $this->request(
                 "GET",
-                Constants::FACULTY_URL . $faculty["externalId"],
-                "parseFacultyPage",
+                $response->getUri() . Constants::FACULTY_URL . $faculty["externalId"],
+                "parseFields",
+                ["facultyExternalId" => intval($faculty["externalId"])],
             );
         }
     }
 
-    public function parseFacultyPage(Response $response): Generator
+    public function parseFields(Response $response): Generator
     {
+        $options = $response->getRequest()->getOptions();
+
         $fields = $response->filterXPath(Constants::SELECTOR_TO_FIELD_LIST)->each(function (Crawler $crawler): array {
+            $text = $crawler->text();
+
             return [
-                "name" => substr($crawler->text(), 0, strpos($crawler->text(), "-")),
-                "slug" => substr($crawler->text(), strpos($crawler->text(), "(") + 1, -1),
-                "fullTime" => substr($crawler->text(), strpos($crawler->text(), "(") + 1, 1) === "s",
-                "facultyExternalId" => substr($crawler->getUri(), strpos($crawler->getUri(), "id=") + 3),
+                "name" => substr($text, 0, strpos($text, "-")),
+                "slug" => substr($text, strpos($text, "(") + 1, -1),
+                "isFullTime" => substr($text, strpos($text, "(") + 1, 1) === "s",
             ];
         });
 
@@ -61,10 +68,39 @@ class FacultySpider extends Spider
             $fieldItem = new FieldItem(
                 $field["name"],
                 $field["slug"],
-                $field["fullTime"],
-                intval($field["facultyExternalId"]),
+                $field["isFullTime"],
+                $options["facultyExternalId"],
             );
             yield $this->item($fieldItem);
+
+            yield $this->request(
+                "GET",
+                $response->getUri() . Constants::FACULTY_URL . $options["facultyExternalId"],
+                "parseSpecializations",
+                ["fieldSlug" => $field["slug"]],
+            );
+        }
+    }
+
+    public function parseSpecializations(Response $response): Generator
+    {
+        $options = $response->getRequest()->getOptions();
+
+        $specializations = $response->filterXPath(Constants::SELECTOR_TO_SPECIALIZATION_LIST)->each(function (Crawler $crawler): array {
+            $specializationsText = $crawler->text();
+
+            return [
+                "name" => substr($specializationsText, 0, strpos($specializationsText, " ")),
+            ];
+        });
+
+        foreach ($specializations as $specialization) {
+            $specializationItem = new SpecializationItem(
+                $specialization["name"],
+                $specialization["name"],
+                $options["fieldSlug"],
+            );
+            yield $this->item($specializationItem);
         }
     }
 }

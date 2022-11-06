@@ -6,12 +6,11 @@ namespace App\Spiders\Items;
 
 use RoachPHP\ItemPipeline\AbstractItem;
 
-final class FieldItem extends AbstractItem
+final class SpecializationItem extends AbstractItem
 {
     public function __construct(
         public readonly string $name,
         public readonly string $slug,
-        public readonly bool $isFullTime,
-        public readonly int $facultyExternalId,
+        public readonly string $fieldSlug,
     ) {}
 }

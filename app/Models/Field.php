@@ -23,7 +23,7 @@ class Field extends Model
     protected $fillable = [
         "name",
         "slug",
-        "full_time",
+        "is_full_time",
     ];
 
     /**

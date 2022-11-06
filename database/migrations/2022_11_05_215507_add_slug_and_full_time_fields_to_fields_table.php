@@ -10,8 +10,8 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::table("fields", function (Blueprint $table): void {
-            $table->string("slug");
-            $table->boolean("full_time");
+            $table->string("slug")->unique();
+            $table->boolean("is_full_time");
         });
     }
 
@@ -19,7 +19,7 @@ return new class() extends Migration {
     {
         Schema::table("fields", function (Blueprint $table): void {
             $table->dropColumn("slug");
-            $table->dropColumn("full_time");
+            $table->dropColumn("is_full_time");
         });
     }
 };
