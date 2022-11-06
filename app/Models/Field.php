@@ -22,6 +22,8 @@ class Field extends Model
     protected $table = "fields";
     protected $fillable = [
         "name",
+        "slug",
+        "full_time",
     ];
 
     /**
