@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console;
 
+use App\Console\Commands\ScrapFaculties;
 use App\Console\Commands\ScrapLegend;
 use App\Console\Commands\ScrapTimetable;
 use Illuminate\Console\Scheduling\Schedule;
@@ -14,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         ScrapLegend::class,
         ScrapTimetable::class,
+        ScrapFaculties::class,
     ];
 
     /**
