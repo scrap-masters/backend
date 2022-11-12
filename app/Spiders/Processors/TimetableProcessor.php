@@ -10,59 +10,50 @@ use RoachPHP\ItemPipeline\Processors\CustomItemProcessor;
 
 class TimetableProcessor extends CustomItemProcessor
 {
+    private const DUPLICATE_DIVISOR = 2;
+
+    private int $daysCount = 0;
+    private int $groupsCount = 0;
+    private int $hoursCount = 0;
+    private int $lessonsCount = 0;
+    private int $lessonRoomsCount = 0;
+    private int $lengthHour = 0;
+    private int $lengthGroup = 0;
+
     /**
      * @param  TimetableItem  $item
      */
     public function processItem(ItemInterface $item): ItemInterface
     {
-        $daysCount = $item->days->count();
-        $groupsCount = $item->groups->count();
-        $hoursCount = $item->hours->count();
-        $lessonsCount = $item->lessons->count() / 2;
+        $this->setupCursors($item);
 
-        //1 dzien to 7 wykladów/cwiczen
-        // liczba lekcji dzielimy na 2 bo skrót lekcji tez jest zaliczany
-        // ilosc group = lessouns count / hours count
-        dump($daysCount);
-        dump($groupsCount);
-        dump($hoursCount);
-        dump($lessonsCount);
+        $hours = $item->hours->slice(length: $this->lengthHour);
+        $groups = $item->groups->slice(length: $this->lengthGroup);
 
-        dump($item->days->getNode(0)->textContent);
-        dump($item->groups->getNode(1)->textContent);
-        dump($item->hours->getNode(1)->textContent);
-        dump($item->lessonRooms->getNode(6)->textContent);
-        dump($item->lessons->getNode(12)->textContent);
-        dump($item->lessons->getNode(12+1)->textContent);
+        $lessonIterator = 0;
+        $roomIterator = 0;
+        $groupIterator = 0;
+        foreach ($item->days as $day) {
+            foreach ($hours as $hour) {
+                foreach ($groups as $group) {
+                    dump($day->textContent);
+                    dump($group->textContent);
+                    dump($item->lessonRooms->getNode($roomIterator)->textContent);
+                    dump($item->lessons->getNode($lessonIterator)->textContent);
+                    dump($item->lessons->getNode($lessonIterator + 1)->textContent);
+                    dump($hour->textContent);
 
-        $lessonsIterator = 0;
-        $rowIterator = 0 ;
-        foreach ($item->days as $day)
-        {
-            foreach ($item->hours as $hour) {
-                foreach ($item->groups as $group) {
-                    while ($rowIterator <= 6) {
-
-
-                        $lessonsIterator++;
-
+                    $lessonIterator += 2;
+                    $roomIterator++;
+                    $groupIterator++;
+                    if ($groupIterator === $groups->count()) {
+                        $groupIterator = 0;
+                        break;
                     }
                 }
             }
-            dump($day->textContent);
         }
 
-
-
-/*        for ($a = 0; $a < $daysCount; $a++) {
-                 for ($b = 0; $b < $groupsCount; $b++) {
-                     for ($c = 0; $c < $hoursCount; $c++) {
-                         for ($d = 0; $d < $lessonsCount; $d++) {
-                         }
-                     }
-                     exit();
-                 }
-             }*/
         return $item;
     }
 
@@ -71,5 +62,17 @@ class TimetableProcessor extends CustomItemProcessor
         return [
             TimetableItem::class,
         ];
+    }
+
+    private function setupCursors(ItemInterface $item): void
+    {
+        $this->daysCount = $item->days->count();
+        $this->groupsCount = $item->groups->count();
+        $this->hoursCount = $item->hours->count();
+        $this->lessonsCount = $item->lessons->count();
+        $this->lessonRoomsCount = $item->lessonRooms->count();
+
+        $this->lengthHour = (int)$this->hoursCount / $this->daysCount;
+        $this->lengthGroup = (int)($this->lessonsCount / self::DUPLICATE_DIVISOR) / $this->hoursCount;
     }
 }
