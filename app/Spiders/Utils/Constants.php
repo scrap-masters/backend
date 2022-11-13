@@ -18,4 +18,5 @@ class Constants
     public const SELECTOR_TO_FIELD_LIST = "//ul[@class='accordion dark']//li/a";
     public const SELECTOR_TO_SPECIALIZATION_LIST = "//ul[@class='accordion dark']//li/div/a[contains(text(), '(')]";
     public const SPECIALIZATIONS_SLUG = "specializationSlug";
+    public const FORMAT_DATE = "Y-m-d";
 }

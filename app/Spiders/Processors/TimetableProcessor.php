@@ -8,6 +8,8 @@ use App\Models\Legend;
 use App\Models\Specialization;
 use App\Models\Timetable;
 use App\Spiders\Items\TimetableItem;
+use App\Spiders\Utils\Constants;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use RoachPHP\ItemPipeline\ItemInterface;
 use RoachPHP\ItemPipeline\Processors\CustomItemProcessor;
@@ -50,7 +52,7 @@ class TimetableProcessor extends CustomItemProcessor
                      */
                     $legend = Legend::query()->where("slug", strtok($item->lessons->getNode($lessonIterator)->textContent, self::SPACE_CHAR))->get("id")->first();
                     $timetable = new Timetable([
-                        "day" => $day->textContent,
+                        "day" => Carbon::parse(trim(strstr($day->textContent, " ", false)))->format(Constants::FORMAT_DATE),
                         "hour" => $hour->textContent,
                         "group" => $group->textContent,
                         "lecturer" => $item->lessons->getNode($lessonIterator + 1)->textContent,
