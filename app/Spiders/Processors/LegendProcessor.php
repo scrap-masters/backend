@@ -4,21 +4,30 @@ declare(strict_types=1);
 
 namespace App\Spiders\Processors;
 
-use App\Dto\LegendDto;
 use App\Models\Legend;
+use App\Spiders\Items\LegendItem;
 use RoachPHP\ItemPipeline\ItemInterface;
-use RoachPHP\ItemPipeline\Processors\ItemProcessorInterface;
-use RoachPHP\Support\Configurable;
+use RoachPHP\ItemPipeline\Processors\CustomItemProcessor;
 
-class LegendProcessor implements ItemProcessorInterface
+final class LegendProcessor extends CustomItemProcessor
 {
-    use Configurable;
-
+    /**
+     * @param  LegendItem  $item
+     */
     public function processItem(ItemInterface $item): ItemInterface
     {
-        $legend = new LegendDto($item->get("slug"), $item->get("full_name"));
-        Legend::query()->firstOrCreate($legend->toArray())->save();
+        Legend::query()->firstOrCreate([
+            "slug" => $item->slug,
+            "full_name" => $item->fullName,
+        ])->save();
 
         return $item;
+    }
+
+    protected function getHandledItemClasses(): array
+    {
+        return [
+            LegendItem::class,
+        ];
     }
 }
