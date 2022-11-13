@@ -45,9 +45,6 @@ run-tests: ## Run stage for test
 fix-permissions: ## Change permision for volumen a php container
 	docker-compose exec php	usermod -u 1000 www-data
 
-security-check: ## Run command for security check
-	docker-compose exec php php artisan security:check
-
 start-queue: ## Start work for queue
 	docker-compose exec php php artisan queue:work
 
@@ -63,7 +60,7 @@ kill-all: ## Kill all running containers
 retry-fails-jobs: ## Retry all fails jobs
     docker-compose exec php php artisan queue:retry all
 
-retry-fails-jobs: ## Generate api documentation
+openapi: ## Generate api documentation
     docker-compose exec php php artisan lrd:generate
 
 .PHONY: help
