@@ -15,7 +15,7 @@ return new class() extends Migration {
             $table->foreign("specialization_id")->references("id")->on("specializations");
             $table->integer("legend_id")->nullable();
             $table->foreign("legend_id")->references("id")->on("legend");
-            $table->string("day");
+            $table->date("day")->format("Y-m-d");
             $table->string("hour");
             $table->string("group");
             $table->string("lecturer");

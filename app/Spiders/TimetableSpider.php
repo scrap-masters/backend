@@ -19,6 +19,15 @@ class TimetableSpider extends Spider
 
     public function parse(Response $response): Generator
     {
+        yield $this->request(
+            "GET",
+            $response->getUri() . Constants::FULL_PLAN_URL . $this->context[Constants::SPECIALIZATIONS_SLUG],
+            "parseTimetables",
+        );
+    }
+
+    public function parseTimetables(Response $response): Generator
+    {
         $items = $response->each(function (Crawler $crawler) {
             return new TimetableItem(
                 days: $crawler->filter(Constants::SELECTOR_TO_DAY),

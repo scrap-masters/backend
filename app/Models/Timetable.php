@@ -6,10 +6,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
- * @property string $day
+ * @property Carbon|null $day
  * @property string $hour
  * @property string $group
  * @property string $lesson
@@ -36,6 +37,9 @@ class Timetable extends Model
         "lecturer",
         "lesson",
         "lesson_room",
+    ];
+    protected $casts = [
+        "updated_at" => "datetime:Y-m-d",
     ];
 
     /**

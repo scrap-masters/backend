@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Spiders\TimetableSpider;
+use App\Jobs\ScheduleScrapingTimetable;
+use App\Jobs\SpecializationJob;
 use Illuminate\Console\Command;
-use RoachPHP\Roach;
 use Symfony\Component\Console\Command\Command as CommandAlias;
 
 class ScrapTimetable extends Command
@@ -27,7 +27,8 @@ class ScrapTimetable extends Command
 
     public function handle(): int
     {
-        Roach::startSpider(TimetableSpider::class);
+        SpecializationJob::dispatch()->onQueue(SpecializationJob::getDefaultQueueName());
+        ScheduleScrapingTimetable::dispatch()->onQueue(ScheduleScrapingTimetable::getDefaultQueueName());
         return CommandAlias::SUCCESS;
     }
 }
