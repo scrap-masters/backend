@@ -65,10 +65,10 @@ return [
         "redis" => [
             "driver" => "redis",
             "connection" => "default",
-            "queue" => env("REDIS_QUEUE", "default"),
-            "retry_after" => 90,
+            "queue" => "scrap-masters",
+            "retry_after" => 300,
             "block_for" => null,
-            "after_commit" => false,
+            "after_commit" => true,
         ],
     ],
 
@@ -87,5 +87,9 @@ return [
         "driver" => env("QUEUE_FAILED_DRIVER", "database-uuids"),
         "database" => env("DB_CONNECTION", "mysql"),
         "table" => "failed_jobs",
+    ],
+
+    "queues" => [
+        "default" => "scrap-masters",
     ],
 ];

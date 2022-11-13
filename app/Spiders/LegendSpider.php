@@ -18,6 +18,15 @@ class LegendSpider extends Spider
 
     public function parse(Response $response): Generator
     {
+        yield $this->request(
+            "GET",
+            $response->getUri() . Constants::FULL_PLAN_URL . $this->context[Constants::SPECIALIZATIONS_SLUG],
+            "parseLegends",
+        );
+    }
+
+    public function parseLegends(Response $response): Generator
+    {
         $legends = $response->filter(Constants::SELECTOR_TO_PLAN_LEGEND);
         $count = $legends->count();
         for ($i = 0; $i < $count; $i = $i + 2) {

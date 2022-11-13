@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "scrap-masters/backend",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Backend for aplication",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
@@ -11,6 +11,7 @@
         "laravel/horizon": "^5.10",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "predis/predis": "^2.0",
         "roach-php/laravel": "^1.0"
     },
     "require-dev": {
