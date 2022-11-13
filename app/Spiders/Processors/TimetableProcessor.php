@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Spiders\Processors;
 
+use App\Models\Legend;
 use App\Models\Specialization;
 use App\Models\Timetable;
 use App\Spiders\Items\TimetableItem;
@@ -14,6 +15,7 @@ use RoachPHP\ItemPipeline\Processors\CustomItemProcessor;
 class TimetableProcessor extends CustomItemProcessor
 {
     private const DUPLICATE_DIVISOR = 2;
+    private const SPACE_CHAR = " ";
 
     private int $lengthHour = 0;
     private int $lengthGroup = 0;
@@ -26,7 +28,12 @@ class TimetableProcessor extends CustomItemProcessor
         $this->setupCursors($item);
 
         $specialty = $this->getSpecialtyFromRequestUri($item);
+
+        /**
+         * @phpstan-ignore-next-line
+         */
         $specialization = Specialization::query()->where("slug", $specialty)->get("id")->first();
+
         $hours = $item->hours->slice(length: $this->lengthHour);
         $groups = $item->groups->slice(length: $this->lengthGroup);
 
@@ -38,6 +45,10 @@ class TimetableProcessor extends CustomItemProcessor
             $timetables = new Collection();
             foreach ($hours as $hour) {
                 foreach ($groups as $group) {
+                    /**
+                     * @phpstan-ignore-next-line
+                     */
+                    $legend = Legend::query()->where("slug", strtok($item->lessons->getNode($lessonIterator)->textContent, self::SPACE_CHAR))->get("id")->first();
                     $timetable = new Timetable([
                         "day" => $day->textContent,
                         "hour" => $hour->textContent,
@@ -46,12 +57,15 @@ class TimetableProcessor extends CustomItemProcessor
                         "lesson" => $item->lessons->getNode($lessonIterator)->textContent,
                         "lesson_room" => $item->lessonRooms->getNode($roomIterator)->textContent,
                     ]);
-                    $timetable->specialization()->associate($specialization);
 
+                    $timetable->specialization()->associate($specialization);
+                    $timetable->legend()->associate($legend);
                     $timetables->add($timetable);
+
                     $lessonIterator += 2;
                     $roomIterator++;
                     $groupIterator++;
+
                     if ($groupIterator === $groups->count()) {
                         $groupIterator = 0;
                         break;
@@ -71,6 +85,9 @@ class TimetableProcessor extends CustomItemProcessor
         ];
     }
 
+    /**
+     * @param  TimetableItem $item
+     */
     private function setupCursors(ItemInterface $item): void
     {
         $daysCount = $item->days->count();
@@ -81,6 +98,9 @@ class TimetableProcessor extends CustomItemProcessor
         $this->lengthGroup = (int)($lessonsCount / self::DUPLICATE_DIVISOR) / $hoursCount;
     }
 
+    /**
+     * @param  TimetableItem $item
+     */
     private function getSpecialtyFromRequestUri(ItemInterface $item): string
     {
         $urlRequest = parse_url($item->days->getUri());
@@ -93,8 +113,13 @@ class TimetableProcessor extends CustomItemProcessor
     private function saveOrUpdateTimetable(Collection $timetables): void
     {
         $timetables->each(function ($timetable): void {
-            Timetable::query()->where('day')->andWhere('hour')->andWhere('group');
-            $timetable->save();
+            $instance = Timetable::getInstanceByDayHourAndGroup($timetable);
+            if ($instance === null) {
+                $timetable->save();
+                return;
+            }
+
+            $instance->update($timetable->attributesToArray());
         });
     }
 }
