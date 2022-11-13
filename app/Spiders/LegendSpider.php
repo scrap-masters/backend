@@ -20,11 +20,12 @@ class LegendSpider extends Spider
     {
         $legends = $response->filter(Constants::SELECTOR_TO_PLAN_LEGEND);
         $count = $legends->count();
-        for ($i = 1; $i < $count; $i = $i + 2) {
+        for ($i = 0; $i < $count; $i = $i + 2) {
             $legend = new LegendItem(
                 $legends->getNode($i)->textContent,
                 $legends->getNode($i + 1)->textContent,
             );
+
             yield $this->item($legend);
         }
     }
