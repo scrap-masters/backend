@@ -14,7 +14,7 @@ services:
     php:
         build:
             context: .
-            dockerfile: .docker/php/Dockerfile
+            dockerfile: .docker/php/Dockerfile-dev
         working_dir: /var/www
         user: ${CURRENT_UID:-1000}
         environment:
