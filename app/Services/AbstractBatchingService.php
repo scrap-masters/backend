@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Services;
 
 use App\Jobs\AbstractJob;
-use App\Service\Exception\BatchException;
+use App\Services\Exception\BatchException;
 use Illuminate\Bus\Batch;
 use Illuminate\Bus\PendingBatch;
 use Illuminate\Support\Collection;

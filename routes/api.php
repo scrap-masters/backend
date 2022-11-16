@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\FacultyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,4 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware("auth:sanctum")->get("/user", fn(Request $request) => $request->user());
+Route::prefix("/v1")->group(function (): void {
+    Route::get("/faculties", [FacultyController::class, "get"]);
+    Route::get("/faculties/{facultyId}/fields", [FacultyController::class, "get"]);
+});
