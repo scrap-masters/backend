@@ -20,6 +20,7 @@ final class FieldProcessor extends CustomItemProcessor
 
         $faculty->fields()->firstOrCreate([
             "name" => $item->name,
+            "year" => $item->year,
             "slug" => $item->slug,
             "is_full_time" => $item->isFullTime,
         ]);

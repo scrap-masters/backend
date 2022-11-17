@@ -12,11 +12,15 @@ use App\Spiders\Processors\FieldProcessor;
 use App\Spiders\Processors\SpecializationProcessor;
 use App\Spiders\Utils\Constants;
 use Generator;
+use RoachPHP\Downloader\Middleware\UserAgentMiddleware;
 use RoachPHP\Http\Response;
 use Symfony\Component\DomCrawler\Crawler;
 
 class FacultySpider extends Spider
 {
+    public array $downloaderMiddleware = [
+        [UserAgentMiddleware::class, ["userAgent" => "Mozilla/5.0 (compatible; RoachPHP/0.1.0)"]],
+    ];
     public array $itemProcessors = [
         FacultyProcessor::class,
         FieldProcessor::class,
@@ -58,17 +62,19 @@ class FacultySpider extends Spider
             $text = $crawler->text();
 
             return [
-                "name" => substr($text, 0, strpos($text, "-")),
+                "name" => substr($text, 0, strpos($text, "-") - 2),
+                "year" => substr($text, strpos($text, "-") - 1, 1),
                 "slug" => substr($text, strpos($text, "(") + 1, -1),
-                "isFullTime" => substr($text, strpos($text, "(") + 1, 1) === "s",
+                "type" => substr($text, strpos($text, "(") + 1, 1),
             ];
         });
 
         foreach ($fields as $field) {
             $fieldItem = new FieldItem(
                 $field["name"],
+                intval($field["year"]),
                 $field["slug"],
-                $field["isFullTime"],
+                $field["type"] === "s",
                 $options["facultyExternalId"],
             );
             yield $this->item($fieldItem);
@@ -77,7 +83,12 @@ class FacultySpider extends Spider
                 "GET",
                 $response->getUri() . Constants::FACULTY_URL . $options["facultyExternalId"],
                 "parseSpecializations",
-                ["fieldSlug" => $field["slug"]],
+                [
+                    "fieldName" => $field["name"],
+                    "fieldSlug" => $field["slug"],
+                    "fieldType" => $field["type"],
+                    "fieldYear" => $field["year"],
+                ],
             );
         }
     }
@@ -85,19 +96,21 @@ class FacultySpider extends Spider
     public function parseSpecializations(Response $response): Generator
     {
         $options = $response->getRequest()->getOptions();
+        $customFilter = "'({$options["fieldName"]})') and contains(text(),'{$options["fieldType"]}{$options["fieldYear"]}')]";
 
-        $specializations = $response->filterXPath(Constants::SELECTOR_TO_SPECIALIZATION_LIST)->each(function (Crawler $crawler): array {
+        $specializations = $response->filterXPath(Constants::SELECTOR_TO_SPECIALIZATION_LIST . $customFilter)->each(function (Crawler $crawler): array {
             $specializationsText = $crawler->text();
 
             return [
-                "name" => substr($specializationsText, 0, strpos($specializationsText, " ")),
+                "name" => $specializationsText,
+                "slug" => substr($specializationsText, 0, strpos($specializationsText, " ")),
             ];
         });
 
         foreach ($specializations as $specialization) {
             $specializationItem = new SpecializationItem(
                 $specialization["name"],
-                $specialization["name"],
+                $specialization["slug"],
                 $options["fieldSlug"],
             );
             yield $this->item($specializationItem);
