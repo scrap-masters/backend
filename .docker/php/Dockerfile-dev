@@ -6,6 +6,8 @@ ARG COMPOSER_VERSION=2.4.4
 
 ENV COMPOSER_MEMORY_LIMIT=-1
 
+ARG INSTALL_COMPOSER_DEV=false
+
 RUN apt-get update && apt-get install -y \
      git zip bzip2 libpng-dev libpng-dev libicu-dev \
      vim libjpeg62-turbo-dev libfreetype6-dev libonig-dev \

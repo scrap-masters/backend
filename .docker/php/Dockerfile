@@ -22,6 +22,7 @@ COPY ./.docker/php/bin/entrypoint.sh /etc/entrypoint.sh
 COPY ./.docker/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./.docker/php/conf/php.ini /usr/local/etc/php/conf.d/php.ini
 COPY ./.docker/php/conf/php-fpm.conf /etc/php/fpm/php-fpm.conf
+COPY ./.docker/php/conf/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 RUN chmod +x /etc/entrypoint.sh
 
@@ -34,7 +35,7 @@ RUN find /var/www -type d -exec chmod -R 555 {} \; \
     && find /var/www/storage /var/www/bootstrap/cache -type d -exec chmod -R 755 {} \; \
     && find /var/www/storage /var/www/bootstrap/cache -type f -exec chmod -R 644 {} \;
 
-composer install --optimize-autoloader --prefer-dist --no-dev -o
+RUN composer install --optimize-autoloader --prefer-dist --no-dev -o
 
 EXPOSE 80
 

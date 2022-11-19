@@ -14,7 +14,7 @@ services:
     php:
         build:
             context: .
-            dockerfile: .docker/php/Dockerfile-dev
+            dockerfile: .docker/php/Dockerfile
             args:
                 INSTALL_XDEBUG: ${DOCKER_INSTALL_XDEBUG:-false}
         working_dir: /var/www
@@ -24,7 +24,7 @@ services:
             - PHP_IDE_CONFIG=serverName=scrap-masters.local
         volumes:
             - .docker/php/conf/php.ini:/usr/local/etc/php/conf.d/php.ini
-#            - .docker/php/conf/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+            - .docker/php/conf/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
             - .:/var/www:delegated
         ports:
             - ${EXTERNAL_PHP_PORT:-9000}:9000
