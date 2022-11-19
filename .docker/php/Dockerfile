@@ -1,6 +1,6 @@
 ARG PHP_VERSION=8.1.12
 
-FROM php:${PHP_VERSION}-fpm
+FROM php:${PHP_VERSION}-fpm-buster
 
 ARG COMPOSER_VERSION=2.4.4
 
@@ -14,7 +14,9 @@ RUN apt-get update && apt-get install -y nginx \
      libpq-dev libxpm-dev libvpx-dev libbz2-dev zlib1g-dev libzip-dev gnumeric \
     && curl -sS https://getcomposer.org/installer | php -- --version="${COMPOSER_VERSION}" --install-dir=/usr/local/bin --filename=composer \
     && docker-php-ext-install intl bcmath mbstring bz2 gd zip pgsql pdo_pgsql opcache pcntl \
-    && docker-php-ext-enable intl pcntl
+    && docker-php-ext-enable intl pcntl \
+    && apt-get autoclean \
+    && apt-get autoremove
 
 COPY ./.docker/php/bin/entrypoint.sh /etc/entrypoint.sh
 COPY ./.docker/nginx/nginx.conf /etc/nginx/nginx.conf
@@ -32,7 +34,7 @@ RUN find /var/www -type d -exec chmod -R 555 {} \; \
     && find /var/www/storage /var/www/bootstrap/cache -type d -exec chmod -R 755 {} \; \
     && find /var/www/storage /var/www/bootstrap/cache -type f -exec chmod -R 644 {} \;
 
-RUN composer install --optimize-autoloader
+composer install --optimize-autoloader --prefer-dist --no-dev -o
 
 EXPOSE 80
 
