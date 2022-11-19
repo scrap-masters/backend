@@ -17,6 +17,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix("/v1")->group(function (): void {
-    Route::get("/faculties", [FacultyController::class, "get"]);
-    Route::get("/faculties/{facultyId}/fields", [FacultyController::class, "get"]);
+    Route::get("/faculties", [FacultyController::class, "index"]);
+    Route::get("/faculties/{faculty}", [FacultyController::class, "show"]);
 });

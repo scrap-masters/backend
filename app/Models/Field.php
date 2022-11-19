@@ -13,6 +13,7 @@ use Illuminate\Support\Collection;
  * @property int $id
  * @property string $name
  * @property int $year
+ * @property string $slug
  * @property bool $isFullTime
  * @property-read Faculty $faculty
  * @property-read Collection<Specialization> $specializations
