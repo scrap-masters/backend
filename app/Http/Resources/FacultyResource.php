@@ -18,7 +18,7 @@ class FacultyResource extends JsonResource
             "id" => $faculty->id,
             "externalId" => $faculty->externalId,
             "name" => $faculty->name,
-            "fields" => FieldSimpleResource::collection($faculty->fields),
+            "fields" => FacultyFieldResource::collection($faculty->fields),
         ];
     }
 }

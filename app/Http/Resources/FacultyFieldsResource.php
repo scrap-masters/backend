@@ -16,7 +16,7 @@ class FacultyFieldsResource extends JsonResource
 
         return [
             "id" => $faculty->id,
-            "fields" => FieldResource::collection($faculty->fields),
+            "fields" => FacultyFieldResource::collection($faculty->fields),
         ];
     }
 }

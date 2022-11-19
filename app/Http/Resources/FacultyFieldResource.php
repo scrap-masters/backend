@@ -7,7 +7,7 @@ namespace App\Http\Resources;
 use App\Models\Field;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FieldSimpleResource extends JsonResource
+class FacultyFieldResource extends JsonResource
 {
     public function toArray($request): array
     {
@@ -20,7 +20,7 @@ class FieldSimpleResource extends JsonResource
             "year" => $field->year,
             "slug" => $field->slug,
             "isFullTime" => $field->isFullTime,
-            "facultyId" => $field->faculty->id,
+            "specializations" => SpecializationSimpleResource::collection($field->specializations),
         ];
     }
 }
