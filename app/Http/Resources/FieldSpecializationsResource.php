@@ -7,7 +7,7 @@ namespace App\Http\Resources;
 use App\Models\Field;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FieldResource extends JsonResource
+class FieldSpecializationsResource extends JsonResource
 {
     public function toArray($request): array
     {
@@ -16,11 +16,6 @@ class FieldResource extends JsonResource
 
         return [
             "id" => $field->id,
-            "name" => $field->name,
-            "year" => $field->year,
-            "slug" => $field->slug,
-            "isFullTime" => $field->isFullTime,
-            "faculty" => new FacultySimpleResource($field->faculty),
             "specializations" => SpecializationSimpleResource::collection($field->specializations),
         ];
     }

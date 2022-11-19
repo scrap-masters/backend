@@ -17,6 +17,7 @@ class FieldSimpleResource extends JsonResource
         return [
             "id" => $field->id,
             "name" => $field->name,
+            "year" => $field->year,
             "slug" => $field->slug,
             "isFullTime" => $field->isFullTime,
         ];
