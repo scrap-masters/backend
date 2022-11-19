@@ -14,7 +14,7 @@ services:
     php:
         build:
             context: .
-            dockerfile: .docker/php/Dockerfile
+            dockerfile: .docker/php/Dockerfile-dev
             args:
                 INSTALL_XDEBUG: ${DOCKER_INSTALL_XDEBUG:-false}
         working_dir: /var/www
