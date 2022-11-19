@@ -12,6 +12,8 @@ use Illuminate\Support\Collection;
 /**
  * @property int $id
  * @property string $name
+ * @property int $year
+ * @property bool $isFullTime
  * @property-read Faculty $faculty
  * @property-read Collection<Specialization> $specializations
  */
@@ -22,6 +24,7 @@ class Field extends Model
     protected $table = "fields";
     protected $fillable = [
         "name",
+        "year",
         "slug",
         "is_full_time",
     ];
