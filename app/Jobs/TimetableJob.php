@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
-use App\Service\TimetableService;
+use App\Services\TimetableService;
 use Illuminate\Bus\Batchable;
 use Throwable;
 

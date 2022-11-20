@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 /**
  * @property int $id
- * @property int $external_id
+ * @property int $externalId
  * @property string $name
  * @property-read Collection<Field> $fields
  */

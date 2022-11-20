@@ -208,5 +208,6 @@ return [
 
     "aliases" => [
         "Route" => Illuminate\Support\Facades\Route::class,
+        "File" => Illuminate\Support\Facades\File::class,
     ],
 ];
