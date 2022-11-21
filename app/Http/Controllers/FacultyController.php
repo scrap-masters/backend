@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\FacultyFieldsResource;
 use App\Http\Resources\FacultyResource;
-use App\Models\Faculty;
 use App\Services\Api\FacultyService;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -21,13 +20,13 @@ class FacultyController extends Controller
         return $this->service->getAllFaculties();
     }
 
-    public function fieldsIndex(Faculty $faculty): FacultyFieldsResource
+    public function fieldsIndex(int $facultyId): FacultyFieldsResource
     {
-        return $this->service->getFieldsByFaculty($faculty);
+        return $this->service->getFieldsByFaculty($facultyId);
     }
 
-    public function show(Faculty $faculty): FacultyResource
+    public function show(int $facultyId): FacultyResource
     {
-        return $this->service->getFacultyById($faculty);
+        return $this->service->getFacultyById($facultyId);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Exceptions\FieldNotFoundException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -44,5 +45,21 @@ class Field extends Model
     public function specializations(): HasMany
     {
         return $this->hasMany(Specialization::class);
+    }
+
+    /**
+     * @throws FieldNotFoundException
+     */
+    public static function findByFieldId(int $fieldId): self
+    {
+        /** @var \Illuminate\Database\Eloquent\Collection|null $fields */
+        $fields = self::query()->where("id", $fieldId)
+            ->limit(1)
+            ->get();
+
+        if ($fields->first() === null) {
+            throw new FieldNotFoundException();
+        }
+        return $fields->first();
     }
 }
