@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\FieldResource;
 use App\Http\Resources\FieldSpecializationsResource;
-use App\Models\Field;
 use App\Services\Api\FieldService;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -21,13 +20,13 @@ class FieldController extends Controller
         return $this->service->getAllFields();
     }
 
-    public function specializationsIndex(Field $field): FieldSpecializationsResource
+    public function specializationsIndex(int $fieldId): FieldSpecializationsResource
     {
-        return $this->service->getSpecializationsByField($field);
+        return $this->service->getSpecializationsByFieldId($fieldId);
     }
 
-    public function show(Field $field): FieldResource
+    public function show(int $fieldId): FieldResource
     {
-        return $this->service->getFieldById($field);
+        return $this->service->getFieldById($fieldId);
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Resources\SpecializationResource;
-use App\Models\Specialization;
 use App\Services\Api\SpecializationService;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -20,8 +19,8 @@ class SpecializationController extends Controller
         return $this->service->getAllSpecializations();
     }
 
-    public function show(Specialization $specialization): SpecializationResource
+    public function show(int $specializationId): SpecializationResource
     {
-        return $this->service->getSpecializationById($specialization);
+        return $this->service->getSpecializationById($specializationId);
     }
 }

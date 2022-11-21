@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Exceptions\SpecializationNotFoundException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -39,5 +40,21 @@ class Specialization extends Model
     public function timetable(): HasMany
     {
         return $this->hasMany(Timetable::class);
+    }
+
+    /**
+     * @throws SpecializationNotFoundException
+     */
+    public static function findBySpecializationId(int $specializationId): self
+    {
+        /** @var \Illuminate\Database\Eloquent\Collection|null $specialization */
+        $specialization = self::query()->where("id", $specializationId)
+            ->limit(1)
+            ->get();
+
+        if ($specialization === null) {
+            throw new SpecializationNotFoundException();
+        }
+        return $specialization->first();
     }
 }

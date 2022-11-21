@@ -15,17 +15,18 @@ class FacultyService
     public function getAllFaculties(): ResourceCollection
     {
         $faculties = Faculty::query()->get();
-
         return FacultySimpleResource::collection($faculties);
     }
 
-    public function getFieldsByFaculty(Faculty $faculty): FacultyFieldsResource
+    public function getFieldsByFaculty(int $facultyId): FacultyFieldsResource
     {
+        $faculty = Faculty::findByFacultyId($facultyId);
         return new FacultyFieldsResource($faculty);
     }
 
-    public function getFacultyById(Faculty $faculty): FacultyResource
+    public function getFacultyById(int $facultyId): FacultyResource
     {
+        $faculty = Faculty::findByFacultyId($facultyId);
         return new FacultyResource($faculty);
     }
 }

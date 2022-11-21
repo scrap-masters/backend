@@ -14,17 +14,18 @@ class FieldService
     public function getAllFields(): ResourceCollection
     {
         $fields = Field::query()->get();
-
         return FieldResource::collection($fields);
     }
 
-    public function getSpecializationsByField(Field $field): FieldSpecializationsResource
+    public function getSpecializationsByFieldId(int $fieldId): FieldSpecializationsResource
     {
+        $field = Field::findByFieldId($fieldId);
         return new FieldSpecializationsResource($field);
     }
 
-    public function getFieldById(Field $field): FieldResource
+    public function getFieldById(int $fieldId): FieldResource
     {
+        $field = Field::findByFieldId($fieldId);
         return new FieldResource($field);
     }
 }

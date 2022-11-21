@@ -21,16 +21,16 @@ use Illuminate\Support\Facades\Route;
 Route::prefix("/v1")->group(function (): void {
     Route::controller(FacultyController::class)->group(function (): void {
         Route::get("/faculties", "index");
-        Route::get("/faculties/{faculty}/fields", "fieldsIndex");
-        Route::get("/faculties/{faculty}", "show");
+        Route::get("/faculties/{facultyId}/fields", "fieldsIndex")->where("facultyId", "[0-9]+");
+        Route::get("/faculties/{facultyId}", "show")->where("facultyId", "[0-9]+");
     });
     Route::controller(FieldController::class)->group(function (): void {
         Route::get("/fields", "index");
-        Route::get("/fields/{field}/specializations", "specializationsIndex");
-        Route::get("/fields/{field}", "show");
+        Route::get("/fields/{fieldId}/specializations", "specializationsIndex")->where("fieldId", "[0-9]+");
+        Route::get("/fields/{fieldId}", "show")->where("fieldId", "[0-9]+");
     });
     Route::controller(SpecializationController::class)->group(function (): void {
         Route::get("/specializations", "index");
-        Route::get("/specializations/{specialization}", "show");
+        Route::get("/specializations/{specializationId}", "show")->where("specializationId", "[0-9]+");
     });
 });
