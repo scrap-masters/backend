@@ -57,7 +57,7 @@ class Field extends Model
             ->limit(1)
             ->get();
 
-        if ($fields === null) {
+        if ($fields->first() === null) {
             throw new FieldNotFoundException();
         }
         return $fields->first();

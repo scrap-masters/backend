@@ -52,7 +52,7 @@ class Specialization extends Model
             ->limit(1)
             ->get();
 
-        if ($specialization === null) {
+        if ($specialization->first() === null) {
             throw new SpecializationNotFoundException();
         }
         return $specialization->first();

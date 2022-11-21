@@ -43,7 +43,7 @@ class Faculty extends Model
             ->limit(1)
             ->get();
 
-        if ($faculty === null) {
+        if ($faculty->first() === null) {
             throw new FacultyNotFoundException();
         }
         return $faculty->first();
