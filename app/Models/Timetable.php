@@ -17,7 +17,7 @@ use Illuminate\Support\Carbon;
  * @property string $lecturer
  * @property string $lessonRoom
  * @property-read Specialization $specialization
- * @property-read Legend $legend
+ * @property-read Legend|null $legend
  */
 
 class Timetable extends Model
