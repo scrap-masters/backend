@@ -43,6 +43,17 @@ class Specialization extends Model
         return $this->hasMany(Timetable::class);
     }
 
+    public function getLegend(): Collection
+    {
+        $legend = new Collection();
+
+        foreach ($this->timetable as $timetableRow) {
+            $legend->add($timetableRow->legend);
+        }
+
+        return $legend->unique("id")->whereNotNull();
+    }
+
     /**
      * @throws SpecializationNotFoundException
      */

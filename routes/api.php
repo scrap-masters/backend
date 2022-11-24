@@ -32,6 +32,7 @@ Route::prefix("/v1")->group(function (): void {
     Route::controller(SpecializationController::class)->group(function (): void {
         Route::get("/specializations", "index");
         Route::get("/specializations/{specializationId}/timetable", "timetableIndex")->where("specializationId", "[0-9]+");
+        Route::get("/specializations/{specializationId}/legend", "legendIndex")->where("specializationId", "[0-9]+");
         Route::get("/specializations/{specializationId}", "show")->where("specializationId", "[0-9]+");
     });
 });

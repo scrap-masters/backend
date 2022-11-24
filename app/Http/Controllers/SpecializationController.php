@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SpecializationLegendResource;
 use App\Http\Resources\SpecializationResource;
 use App\Http\Resources\SpecializationTimetableResource;
 use App\Services\Api\SpecializationService;
@@ -23,6 +24,11 @@ class SpecializationController extends Controller
     public function timetableIndex(int $specializationId): SpecializationTimetableResource
     {
         return $this->service->getTimetableBySpecialization($specializationId);
+    }
+
+    public function legendIndex(int $specializationId): SpecializationLegendResource
+    {
+        return $this->service->getLegendBySpecialization($specializationId);
     }
 
     public function show(int $specializationId): SpecializationResource
