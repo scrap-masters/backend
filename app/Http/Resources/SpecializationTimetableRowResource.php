@@ -7,7 +7,7 @@ namespace App\Http\Resources;
 use App\Models\Timetable;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SpecializationClassesResource extends JsonResource
+class SpecializationTimetableRowResource extends JsonResource
 {
     public function toArray($request): array
     {

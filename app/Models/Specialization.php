@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $name
  * @property string $slug
  * @property-read Field $field
- * @property-read Collection $timetable
+ * @property-read Collection<Timetable> $timetable
  */
 class Specialization extends Model
 {

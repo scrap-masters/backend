@@ -16,7 +16,7 @@ class SpecializationTimetableResource extends JsonResource
 
         return [
             "id" => $specialization->id,
-            "classes" => SpecializationClassesResource::collection($specialization->timetable),
+            "timetable" => SpecializationTimetableRowResource::collection($specialization->timetable),
         ];
     }
 }
