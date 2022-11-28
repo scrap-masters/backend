@@ -21,7 +21,6 @@ class SpecializationTimetableRowResource extends JsonResource
             "end" => $timetable->end,
             "group" => $timetable->group,
             "lecturer" => $timetable->lecturer,
-            "lesson" => $timetable->lesson,
             "title" => $timetable->title,
             "type" => $timetable->type,
             "room" => $timetable->lessonRoom,
