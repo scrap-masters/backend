@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Exceptions;
 
 use Exception;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class NotFoundEnvException extends Exception
@@ -13,7 +14,7 @@ class NotFoundEnvException extends Exception
     {
         return new self(
             $message,
-            500,
+            Response::HTTP_INTERNAL_SERVER_ERROR,
             $previous,
         );
     }
