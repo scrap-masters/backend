@@ -56,7 +56,7 @@ class TimetableProcessor extends CustomItemProcessor
                         "hour" => $hour->textContent,
                         "group" => $group->textContent,
                         "lecturer" => $item->lessons->getNode($lessonIterator + 1)->textContent,
-                        "lesson" => $item->lessons->getNode($lessonIterator)->textContent,
+                        "lesson" => trim($item->lessons->getNode($lessonIterator)->textContent),
                         "lesson_room" => $item->lessonRooms->getNode($roomIterator)->textContent,
                     ]);
 

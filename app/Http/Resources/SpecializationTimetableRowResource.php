@@ -17,12 +17,14 @@ class SpecializationTimetableRowResource extends JsonResource
         return [
             "id" => $timetable->id,
             "legend_id" => $timetable->legend?->id,
-            "day" => $timetable->day,
-            "hour" => $timetable->hour,
+            "start" => $timetable->start,
+            "end" => $timetable->end,
             "group" => $timetable->group,
             "lecturer" => $timetable->lecturer,
             "lesson" => $timetable->lesson,
-            "lessonRoom" => $timetable->lessonRoom,
+            "title" => $timetable->title,
+            "type" => $timetable->type,
+            "room" => $timetable->lessonRoom,
         ];
     }
 }
