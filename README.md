@@ -24,7 +24,7 @@ Please install packages makefile for [Windows](http://gnuwin32.sourceforge.net/p
 ### Address where the environment is available
 - `http://localhost`
 ## Documentation for a Rest Api
-- `http://localhost/docs/v1`
+- `http://localhost/docs/api#/`
 ## All commands
 
 -  `make help`
