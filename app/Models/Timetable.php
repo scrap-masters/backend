@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Utils\Constants;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -81,10 +82,10 @@ class Timetable extends Model
     protected function title(): Attribute
     {
         return new Attribute(
-            get: fn($value, $attributes): string => ($attributes["lesson"] === "-") ? "-" : substr(
+            get: fn($value, $attributes): string => ($attributes["lesson"] === Constants::DIVIDER) ? Constants::DIVIDER : substr(
                 $attributes["lesson"],
-                0,
-                strpos($attributes["lesson"], " "),
+                Constants::OFFSET_BY_ZERO,
+                strpos($attributes["lesson"], Constants::SPACE_CHAR),
             ),
         );
     }
@@ -92,9 +93,9 @@ class Timetable extends Model
     protected function type(): Attribute
     {
         return new Attribute(
-            get: fn($value, $attributes): string => ($attributes["lesson"] === "-") ? "-" : substr(
+            get: fn($value, $attributes): string => ($attributes["lesson"] === Constants::DIVIDER) ? Constants::DIVIDER : substr(
                 $attributes["lesson"],
-                strpos($attributes["lesson"], "(") + 1,
+                strpos($attributes["lesson"], Constants::OPENING_BRACKET) + Constants::OFFSET_BY_ONE,
                 -1,
             ),
         );
@@ -104,8 +105,8 @@ class Timetable extends Model
     {
         return new Attribute(
             get: fn($value, $attributes): string => Carbon::createFromFormat(
-                "Y-m-d H:i",
-                $attributes["day"] . substr($attributes["hour"], 0, -6),
+                Constants::DATETIME_FORMAT,
+                $attributes["day"] . substr($attributes["hour"], Constants::OFFSET_BY_ZERO, -6),
             )->toDateTimeLocalString(),
         );
     }
@@ -114,8 +115,8 @@ class Timetable extends Model
     {
         return new Attribute(
             get: fn($value, $attributes): string => Carbon::createFromFormat(
-                "Y-m-d H:i",
-                $attributes["day"] . substr($attributes["hour"], strpos($attributes["hour"], "-") + 1),
+                Constants::DATETIME_FORMAT,
+                $attributes["day"] . substr($attributes["hour"], strpos($attributes["hour"], Constants::DIVIDER) + Constants::OFFSET_BY_ONE),
             )->toDateTimeLocalString(),
         );
     }
