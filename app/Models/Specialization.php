@@ -59,7 +59,7 @@ class Specialization extends Model
      */
     public static function findBySpecializationId(int $specializationId): self
     {
-        /** @var \Illuminate\Database\Eloquent\Collection|null $specialization */
+        /** @var Collection|null $specialization */
         $specialization = self::query()->where("id", $specializationId)
             ->limit(1)
             ->get();
