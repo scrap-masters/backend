@@ -21,18 +21,18 @@ class SpecializationController extends Controller
         return $this->service->getAllSpecializations();
     }
 
-    public function timetableIndex(int $specializationId): SpecializationTimetableResource
+    public function timetableIndex(int $id): SpecializationTimetableResource
     {
-        return $this->service->getTimetableBySpecialization($specializationId);
+        return $this->service->getTimetableBySpecialization($id);
     }
 
-    public function legendIndex(int $specializationId): SpecializationLegendResource
+    public function legendIndex(int $id): SpecializationLegendResource
     {
-        return $this->service->getLegendBySpecialization($specializationId);
+        return $this->service->getLegendBySpecialization($id);
     }
 
-    public function show(int $specializationId): SpecializationResource
+    public function show(int $id): SpecializationResource
     {
-        return $this->service->getSpecializationById($specializationId);
+        return $this->service->getSpecializationById($id);
     }
 }

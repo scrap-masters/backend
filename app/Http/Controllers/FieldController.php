@@ -20,13 +20,13 @@ class FieldController extends Controller
         return $this->service->getAllFields();
     }
 
-    public function specializationsIndex(int $fieldId): FieldSpecializationsResource
+    public function specializationsIndex(int $id): FieldSpecializationsResource
     {
-        return $this->service->getSpecializationsByFieldId($fieldId);
+        return $this->service->getSpecializationsByFieldId($id);
     }
 
-    public function show(int $fieldId): FieldResource
+    public function show(int $id): FieldResource
     {
-        return $this->service->getFieldById($fieldId);
+        return $this->service->getFieldById($id);
     }
 }

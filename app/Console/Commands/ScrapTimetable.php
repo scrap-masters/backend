@@ -23,7 +23,7 @@ class ScrapTimetable extends Command
      *
      * @var string
      */
-    protected $description = "Start scraping a legend of timetable";
+    protected $description = "Start scraping all items for timetable";
 
     public function handle(): int
     {

@@ -20,13 +20,13 @@ class FacultyController extends Controller
         return $this->service->getAllFaculties();
     }
 
-    public function fieldsIndex(int $facultyId): FacultyFieldsResource
+    public function fieldsIndex(int $id): FacultyFieldsResource
     {
-        return $this->service->getFieldsByFaculty($facultyId);
+        return $this->service->getFieldsByFaculty($id);
     }
 
-    public function show(int $facultyId): FacultyResource
+    public function show(int $id): FacultyResource
     {
-        return $this->service->getFacultyById($facultyId);
+        return $this->service->getFacultyById($id);
     }
 }

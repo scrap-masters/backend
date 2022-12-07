@@ -47,7 +47,7 @@ class Specialization extends Model
     {
         $legend = new Collection();
 
-        foreach ($this->timetable as $timetableRow) {
+        foreach ($this->getFilteredTimetable() as $timetableRow) {
             $legend->add($timetableRow->legend);
         }
 
@@ -64,7 +64,7 @@ class Specialization extends Model
      */
     public static function findBySpecializationId(int $specializationId): self
     {
-        /** @var \Illuminate\Database\Eloquent\Collection|null $specialization */
+        /** @var Collection|null $specialization */
         $specialization = self::query()->where("id", $specializationId)
             ->limit(1)
             ->get();

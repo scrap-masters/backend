@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 /**
  * @property int $id
@@ -77,6 +78,20 @@ class Timetable extends Model
             ])
             ->get()
             ->first();
+    }
+
+    public static function getAllLecturers(): Collection
+    {
+        return self::query()
+            ->pluck("lecturer")
+            ->unique();
+    }
+
+    public static function getPlanByLecturerName(string $name): Collection
+    {
+        return self::query()
+            ->where("lecturer", "LIKE", "%" . $name . "%")
+            ->get();
     }
 
     protected function title(): Attribute
