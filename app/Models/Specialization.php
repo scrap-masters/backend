@@ -47,7 +47,7 @@ class Specialization extends Model
     {
         $legend = new Collection();
 
-        foreach ($this->timetable as $timetableRow) {
+        foreach ($this->getFilteredTimetable() as $timetableRow) {
             $legend->add($timetableRow->legend);
         }
 
