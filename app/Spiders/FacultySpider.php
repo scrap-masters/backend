@@ -7,6 +7,7 @@ namespace App\Spiders;
 use App\Spiders\Items\FacultyItem;
 use App\Spiders\Items\FieldItem;
 use App\Spiders\Items\SpecializationItem;
+use App\Spiders\Middleware\ResponseEncodingCorrection;
 use App\Spiders\Processors\FacultyProcessor;
 use App\Spiders\Processors\FieldProcessor;
 use App\Spiders\Processors\SpecializationProcessor;
@@ -19,6 +20,7 @@ use Symfony\Component\DomCrawler\Crawler;
 class FacultySpider extends Spider
 {
     public array $downloaderMiddleware = [
+        ResponseEncodingCorrection::class,
         [UserAgentMiddleware::class, ["userAgent" => "Mozilla/5.0 (compatible; RoachPHP/0.1.0)"]],
     ];
     public array $itemProcessors = [
