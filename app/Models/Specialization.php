@@ -54,6 +54,11 @@ class Specialization extends Model
         return $legend->unique("id")->whereNotNull();
     }
 
+    public function getFilteredTimetable(): Collection
+    {
+        return $this->timetable->whereNotNull("legend_id");
+    }
+
     /**
      * @throws SpecializationNotFoundException
      */
