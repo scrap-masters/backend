@@ -2,6 +2,8 @@
 
 php artisan migrate
 
+php artisan cache:clear
+
 php artisan optimize
 
 set -e

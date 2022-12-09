@@ -12,4 +12,5 @@ class Constants
     public const DATETIME_FORMAT = "Y-m-d H:i";
     public const OFFSET_BY_ONE = 1;
     public const OFFSET_BY_ZERO = 0;
+    public const HALF_AN_HOUR = 1800;
 }
