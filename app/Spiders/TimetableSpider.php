@@ -21,7 +21,11 @@ class TimetableSpider extends Spider
     {
         yield $this->request(
             "GET",
-            $response->getUri() . Constants::FULL_PLAN_URL . $this->context[Constants::SPECIALIZATIONS_SLUG],
+            $response->getUri() . Constants::FULL_PLAN_URL . str_replace(
+                Constants::POLISH_LETTERS_TO_REPLACE,
+                Constants::POLISH_LETTER_REPLACEMENTS,
+                $this->context[Constants::SPECIALIZATIONS_SLUG],
+            ),
             "parseTimetables",
         );
     }

@@ -24,6 +24,7 @@ class Legend extends Model
     protected $fillable = [
         "slug",
         "full_name",
+        "specialization_id",
     ];
 
     /**
