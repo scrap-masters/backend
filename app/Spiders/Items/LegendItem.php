@@ -11,5 +11,6 @@ final class LegendItem extends AbstractItem
     public function __construct(
         public readonly string $slug,
         public readonly string $fullName,
+        public readonly string $specializationSlug,
     ) {}
 }

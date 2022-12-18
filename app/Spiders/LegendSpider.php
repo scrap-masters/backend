@@ -20,7 +20,11 @@ class LegendSpider extends Spider
     {
         yield $this->request(
             "GET",
-            $response->getUri() . Constants::FULL_PLAN_URL . $this->context[Constants::SPECIALIZATIONS_SLUG],
+            $response->getUri() . Constants::FULL_PLAN_URL . str_replace(
+                Constants::POLISH_LETTERS_TO_REPLACE,
+                Constants::POLISH_LETTER_REPLACEMENTS,
+                $this->context[Constants::SPECIALIZATIONS_SLUG],
+            ),
             "parseLegends",
         );
     }
@@ -33,6 +37,7 @@ class LegendSpider extends Spider
             $legend = new LegendItem(
                 $legends->getNode($i)->textContent,
                 $legends->getNode($i + 1)->textContent,
+                $this->context[Constants::SPECIALIZATIONS_SLUG],
             );
 
             yield $this->item($legend);

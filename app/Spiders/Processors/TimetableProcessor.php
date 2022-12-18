@@ -34,7 +34,7 @@ class TimetableProcessor extends CustomItemProcessor
         /**
          * @phpstan-ignore-next-line
          */
-        $specialization = Specialization::query()->where("slug", $specialty)->get("id")->first();
+        $specializationId = Specialization::query()->where("slug", $specialty)->get("id")->first()->id;
 
         $hours = $item->hours->slice(length: $this->lengthHour);
         $groups = $item->groups->slice(length: $this->lengthGroup);
@@ -50,7 +50,11 @@ class TimetableProcessor extends CustomItemProcessor
                     /**
                      * @phpstan-ignore-next-line
                      */
-                    $legend = Legend::query()->where("slug", strtok($item->lessons->getNode($lessonIterator)->textContent, self::SPACE_CHAR))->get("id")->first();
+                    $legend = Legend::query()
+                        ->where("specialization_id", $specializationId)
+                        ->where("slug", strtok($item->lessons->getNode($lessonIterator)->textContent, self::SPACE_CHAR))
+                        ->get("id")
+                        ->first();
                     $timetable = new Timetable([
                         "day" => Carbon::parse(trim(strstr($day->textContent, " ", false)))->format(Constants::FORMAT_DATE),
                         "hour" => $hour->textContent,
@@ -60,7 +64,7 @@ class TimetableProcessor extends CustomItemProcessor
                         "lesson_room" => $item->lessonRooms->getNode($roomIterator)->textContent,
                     ]);
 
-                    $timetable->specialization()->associate($specialization);
+                    $timetable->specialization()->associate($specializationId);
                     $timetable->legend()->associate($legend);
                     $timetables->add($timetable);
 
@@ -109,7 +113,11 @@ class TimetableProcessor extends CustomItemProcessor
 
         parse_str($urlRequest["query"], $params);
 
-        return urlencode($params["specjalnosc"]);
+        return str_replace(
+            Constants::POLISH_LETTER_REPLACEMENTS,
+            Constants::POLISH_LETTERS_TO_REPLACE,
+            urlencode($params["specjalnosc"]),
+        );
     }
 
     private function saveOrUpdateTimetable(Collection $timetables): void
