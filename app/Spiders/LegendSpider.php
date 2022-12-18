@@ -33,6 +33,7 @@ class LegendSpider extends Spider
             $legend = new LegendItem(
                 $legends->getNode($i)->textContent,
                 $legends->getNode($i + 1)->textContent,
+                $this->context[Constants::SPECIALIZATIONS_SLUG],
             );
 
             yield $this->item($legend);

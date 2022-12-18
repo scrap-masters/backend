@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $slug
  * @property-read Field $field
  * @property-read Collection<Timetable> $timetable
+ * @property-read Collection<Legend> $legend
  */
 class Specialization extends Model
 {
@@ -41,6 +42,14 @@ class Specialization extends Model
     public function timetable(): HasMany
     {
         return $this->hasMany(Timetable::class);
+    }
+
+    /**
+     * @return HasMany<Legend>
+     */
+    public function legend(): HasMany
+    {
+        return $this->hasMany(Legend::class);
     }
 
     public function getLegend(): Collection

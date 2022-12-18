@@ -50,7 +50,11 @@ class TimetableProcessor extends CustomItemProcessor
                     /**
                      * @phpstan-ignore-next-line
                      */
-                    $legend = Legend::query()->where("slug", strtok($item->lessons->getNode($lessonIterator)->textContent, self::SPACE_CHAR))->get("id")->first();
+                    $legend = Legend::query()
+                        ->where("specialization_id", $specialization)
+                        ->where("slug", strtok($item->lessons->getNode($lessonIterator)->textContent, self::SPACE_CHAR))
+                        ->get("id")
+                        ->first();
                     $timetable = new Timetable([
                         "day" => Carbon::parse(trim(strstr($day->textContent, " ", false)))->format(Constants::FORMAT_DATE),
                         "hour" => $hour->textContent,

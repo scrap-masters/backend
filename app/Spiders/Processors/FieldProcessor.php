@@ -18,6 +18,7 @@ final class FieldProcessor extends CustomItemProcessor
     {
         $faculty = Faculty::query()->where("external_id", $item->facultyExternalId)->first();
 
+        /** @var Faculty $faculty */
         $faculty->fields()->firstOrCreate([
             "name" => $item->name,
             "year" => $item->year,

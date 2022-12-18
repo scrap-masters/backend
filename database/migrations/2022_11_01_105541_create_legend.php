@@ -11,6 +11,8 @@ return new class() extends Migration {
     {
         Schema::create("legend", function (Blueprint $table): void {
             $table->id()->autoIncrement();
+            $table->integer("specialization_id");
+            $table->foreign("specialization_id")->references("id")->on("specializations");
             $table->string("slug", 255);
             $table->string("full_name", 255);
             $table->timestamps();
