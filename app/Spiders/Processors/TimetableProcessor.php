@@ -9,6 +9,7 @@ use App\Models\Specialization;
 use App\Models\Timetable;
 use App\Spiders\Items\TimetableItem;
 use App\Spiders\Utils\Constants;
+use App\ValueObject\PolishLetters;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use RoachPHP\ItemPipeline\ItemInterface;
@@ -113,11 +114,7 @@ class TimetableProcessor extends CustomItemProcessor
 
         parse_str($urlRequest["query"], $params);
 
-        return str_replace(
-            Constants::POLISH_LETTER_REPLACEMENTS,
-            Constants::POLISH_LETTERS_TO_REPLACE,
-            urlencode($params["specjalnosc"]),
-        );
+        return (string)PolishLetters::changeToUrlFormat($params["specjalnosc"]);
     }
 
     private function saveOrUpdateTimetable(Collection $timetables): void
