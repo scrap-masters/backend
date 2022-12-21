@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Command;
+namespace Tests\Unit\Commands;
 
 use App\Jobs\ScheduleScrapingTimetable;
 use App\Jobs\SpecializationJob;
