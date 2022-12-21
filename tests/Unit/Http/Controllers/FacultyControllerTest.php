@@ -34,7 +34,9 @@ class FacultyControllerTest extends TestCase
     public function testIndexFacultySuccess(): void
     {
         $facultyModel = Mockery::mock("Eloquent", Faculty::class);
-        $facultyModel->shouldReceive("get")
+        /** @phpstan-ignore-next-line  */
+        $facultyModel
+            ->shouldReceive("get")
             ->andReturn(new Collection($this->faculties));
 
         $facultyServiceMock = Mockery::mock(FacultyService::class)->makePartial()->shouldAllowMockingMethod("getAllFaculties");
