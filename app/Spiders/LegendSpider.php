@@ -7,6 +7,7 @@ namespace App\Spiders;
 use App\Spiders\Items\LegendItem;
 use App\Spiders\Processors\LegendProcessor;
 use App\Spiders\Utils\Constants;
+use App\ValueObject\PolishLetters;
 use Generator;
 use RoachPHP\Http\Response;
 
@@ -20,11 +21,7 @@ class LegendSpider extends Spider
     {
         yield $this->request(
             "GET",
-            $response->getUri() . Constants::FULL_PLAN_URL . str_replace(
-                Constants::POLISH_LETTERS_TO_REPLACE,
-                Constants::POLISH_LETTER_REPLACEMENTS,
-                $this->context[Constants::SPECIALIZATIONS_SLUG],
-            ),
+            $response->getUri() . Constants::FULL_PLAN_URL . (string)PolishLetters::change($this->context[Constants::SPECIALIZATIONS_SLUG]),
             "parseLegends",
         );
     }
